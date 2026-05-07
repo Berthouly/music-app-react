@@ -1,18 +1,53 @@
-import { useState } from 'react'
-import './App.css'
-// import CardArtistes from './components/CardsArtistes/CardArtistes'
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import { useState } from 'react';
+import './App.css';
+
 import Track from './components/Track/Track';
+import Player from './components/Player/Player';
+import Sidebar from "./components/Sidebar/Sidebar";
+import Favorites from "./Pages/Favorites/Favorites";
+import Playlists from "./Pages/Playlists/Playlists";
+
+import Home from "./pages/Home/Home";
+import About from "./pages/About/About";
+import Search from "./pages/Search/Search";
+
+import { MusicProvider } from "./context/MusicContext";
+
+import "./index.css";
 
 
 function App() {
-
- // const [artist, setArtist] = useState([]); 
+  const [CurrentTrack, setCurrentTrack] = useState(null);
 
   return (
-<div className="app">
-  <Track />
-</div>
+
+    <MusicProvider>
+    <BrowserRouter>
+
+
+    <div className="app">
+      <div className="content">
+
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/playlists" element={<Playlists />} />
+            </Routes>
+
+          </div>
+
+        <Player />
+        <Sidebar />
+
+
+    </div>
+
+    </BrowserRouter>
+    </MusicProvider>
+
   );
 }
 
-export default App
+export default App;

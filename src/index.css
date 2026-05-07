@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+
+  font-family: Arial, sans-serif;
+
+  background: #121212;
+
+  color: white;
+}
+
+
+.app {
+  padding-bottom: 140px;
+}
+
+
+.content {
+  padding: 20px;
+}
+
+
+button {
+  cursor: pointer;
+}
