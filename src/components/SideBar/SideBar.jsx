@@ -22,6 +22,13 @@ const Sidebar = () => {
         🎵
       </Link>
 
+       <Link to="/login">
+        👤
+      </Link>
+      <Link to="/register">
+        ➕
+      </Link>
+
     </div>
   );
 };

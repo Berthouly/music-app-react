@@ -8,6 +8,9 @@ body {
   color: white;
 }
 
+*{
+  box-sizing: border-box;
+}
 
 .app {
   padding-bottom: 140px;

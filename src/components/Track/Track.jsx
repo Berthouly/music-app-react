@@ -64,7 +64,7 @@ const Track = () => {
         { loading && <p>Chargement...</p> }
         { error && <p>{error}</p> }
 
-        <div className="tracks">
+        <div className="tracks-grid">
         {/* map() parcourt toutes les tracks */}
         {tracks.map((track) => (
            <AlbumCard key={track.id} track={track} onPlay={() => playTrack(track)} onFavorite={() => addFavorite(track)}/>

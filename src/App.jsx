@@ -11,10 +11,12 @@ import Playlists from "./Pages/Playlists/Playlists";
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import Search from "./pages/Search/Search";
+import Login from "./Pages/Login/Login";
 
 import { MusicProvider } from "./context/MusicContext";
 
 import "./index.css";
+import Register from "./Pages/Register/Register";
 
 
 function App() {
@@ -34,6 +36,9 @@ function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/playlists" element={<Playlists />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/playlist" element={<Playlists />} />
             </Routes>
 
           </div>
