@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 
 import playlistRoutes from "./routes/playlistRoutes.js";
+import favoriteRoutes from "./routes/favoriteRoutes.js"
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use("/api/auth", authRoutes);
 
 app.use("/api/playlists", playlistRoutes);
 
+app.use("/api/favorites", favoriteRoutes);
 //Connnexion MongoDB
 mongoose.connect(process.env.MONGO_URI).then(() => {
   console.log("MongoDB connecté");

@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 import "./Sidebar.css";
 
 
 const Sidebar = () => {
+
+    const { isLogged, logout } = useAuth();
 
   return (
 
@@ -15,19 +18,17 @@ const Sidebar = () => {
       <Link to="/search">
         🔎
       </Link>
-      <Link to="/favorites">
-        ❤️
-      </Link>
-      <Link to="/playlists">
-        🎵
-      </Link>
+      {isLogged && <Link to="/playlists">🎵</Link>}
+      {isLogged && <Link to="/favorites">❤️</Link>}
 
-       <Link to="/login">
-        👤
-      </Link>
-      <Link to="/register">
-        ➕
-      </Link>
+      {!isLogged ? (
+        <>
+        <Link to="/login">👤</Link>
+         <Link to="/register">➕</Link>
+        </>
+      ) : (
+        <button onClick={logout}>🚪</button>
+      )}
 
     </div>
   );

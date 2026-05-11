@@ -12,18 +12,19 @@ import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import Search from "./pages/Search/Search";
 import Login from "./Pages/Login/Login";
+import Register from "./Pages/Register/Register";
 
 import { MusicProvider } from "./context/MusicContext";
+import { AuthProvider } from "./context/AuthContext";
 
 import "./index.css";
-import Register from "./Pages/Register/Register";
 
 
 function App() {
   const [CurrentTrack, setCurrentTrack] = useState(null);
 
   return (
-
+    <AuthProvider>
     <MusicProvider>
     <BrowserRouter>
 
@@ -51,7 +52,7 @@ function App() {
 
     </BrowserRouter>
     </MusicProvider>
-
+    </AuthProvider>
   );
 }
 

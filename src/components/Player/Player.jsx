@@ -2,6 +2,8 @@ import { useRef, useState, useEffect } from "react";
 import React from 'react';
 import "./Player.css";
 import { useMusic } from "../../context/MusicContext";
+import { addFavoriteTrack } from "../../services/favorites.js";
+
 
 const Player = ({onFavorite}) => {
 
@@ -62,6 +64,16 @@ const changeVolume = (e) => {
 
   if (!currentTrack) return null;
 
+      const handleFavorite = async (track) => {
+    try {
+      await addFavoriteTrack(track);
+      alert("Track ajoutée aux favoris");
+    } catch (err) {
+      console.error(err);
+      alert("Erreur lors de l'ajout aux favoris");
+    }
+  };
+
 
   return (
 
@@ -86,7 +98,7 @@ const changeVolume = (e) => {
         </button>
 
         <div className="like-btn">
-          <button onClick={() => addFavorite(currentTrack)}>❤️</button>
+          <button onClick={() => addFavoriteTrack(currentTrack)}>❤️</button>
         </div>
 
 

@@ -1,58 +1,49 @@
 import React, { useState } from "react";
-
+import { useAuth } from "../../context/AuthContext";
 import { loginUser } from "../../services/auth.js";
 
 const Login = () => {
-
-  //Email utilisateur
+  // Email tapé par l'utilisateur
   const [email, setEmail] = useState("");
 
-  // Password utilisateur
+  // Mot de passe tapé par l'utilisateur
   const [password, setPassword] = useState("");
 
+  // Message d'erreur
+  const [error, setError] = useState("");
 
+  // Message de succès
+  const [success, setSuccess] = useState("");
 
-  // 🔐 Fonction login
+  // Fonction globale venant du AuthContext
+  // Elle sauvegarde le token dans localStorage
+  const { login } = useAuth();
+
   const handleLogin = async () => {
+    setError("");
+    setSuccess("");
 
     try {
-
-      // Appel API backend
+      // Appel au backend : /api/auth/login
       const res = await loginUser({
-
         email,
-
-        password
-
+        password,
       });
 
+      // Sauvegarde du token via AuthContext
+      login(res.data.token);
 
-
-
-      // Sauvegarde token navigateur
-      localStorage.setItem(
-
-        "token",
-
-        res.data.token
-      );
-
-
+      setSuccess("Utilisateur connecté");
 
       console.log("Utilisateur connecté");
-
     } catch (err) {
-
-      console.log(err);
+      setError("Email ou mot de passe incorrect");
+      console.error(err);
     }
   };
 
-
-
   return (
-
-    <div>
-
+    <div className="login-page">
       <h1>Connexion</h1>
 
       <input
@@ -62,8 +53,6 @@ const Login = () => {
         onChange={(e) => setEmail(e.target.value)}
       />
 
-
-
       <input
         type="password"
         placeholder="Mot de passe"
@@ -71,12 +60,12 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-
-
       <button onClick={handleLogin}>
         Se connecter
       </button>
 
+      {success && <p>{success}</p>}
+      {error && <p>{error}</p>}
     </div>
   );
 };

@@ -1,0 +1,83 @@
+.playlists-page {
+  padding: 20px;
+  color: white;
+}
+
+.playlist-create {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.playlist-create input {
+  padding: 12px;
+  border-radius: 20px;
+  border: none;
+  background: #282828;
+  color: white;
+}
+
+.playlist-create button {
+  padding: 12px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #1db954;
+  color: white;
+  cursor: pointer;
+}
+
+.playlists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.playlist-card {
+  background: #181818;
+  padding: 20px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.playlist-card:hover {
+  background: #282828;
+  transform: translateY(-4px);
+}
+
+.playlist-card img {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+.playlist-detail {
+  margin-top: 20px;
+}
+
+.playlist-track {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #181818;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.playlist-track img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+}
+
+.playlist-track button {
+  margin-left: auto;
+  background: #1db954;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}
