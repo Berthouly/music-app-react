@@ -6,6 +6,7 @@ import {
 import { useMusic } from "../../context/MusicContext.jsx";
 import "./Favorites.css"; 
 import { FaPlay } from "react-icons/fa";
+import PageTransition from "../../components/PageTransition/PageTransition";
 
 
 
@@ -42,6 +43,12 @@ const Favorites = () => {
   }, []);
 
   return (
+
+     <>
+     <PageTransition
+  subtitle="Titres sauvegardés"
+  title="Favoris"
+/>
     <div className="favorites-page">
       <h1>Mes favoris</h1>
 
@@ -65,6 +72,7 @@ const Favorites = () => {
         </div>
       ))}
     </div>
+    </>
   );
 };
 

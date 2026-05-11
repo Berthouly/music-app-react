@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { loginUser } from "../../services/auth.js";
 
 import Alert from "../../components/Alert/Alert";
+import PageTransition from "../../components/PageTransition/PageTransition";
 
 import "./Auth.css";
 
@@ -55,6 +56,12 @@ const Login = () => {
   };
 
   return (
+
+    <>
+    <PageTransition
+  subtitle="Espace utilisateur"
+  title="Connexion"
+/>
     <div className="auth-page">
       <div className="auth-card">
         <h1>Connexion</h1>
@@ -83,6 +90,7 @@ const Login = () => {
         />
       </div>
     </div>
+    </>
   );
 };
 

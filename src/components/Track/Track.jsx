@@ -1,59 +1,51 @@
-import React, { useEffect, useState } from 'react'
-import "./Track.css"
-import axios from "axios"
-import {searchTracks} from "../../services/api.js";
+import React, { useEffect, useState } from "react";
+import "./Track.css";
+
+import { searchTracks } from "../../services/api.js";
 import { useMusic } from "../../context/MusicContext.jsx";
-import AlbumCard from '../AlbumCard/AlbumCard.jsx';
-import { getPlaylists, addTrackToPlaylist } from "../../services/playlist.js";
+import AlbumCard from "../AlbumCard/AlbumCard.jsx";
+import PageTransition from "../../components/PageTransition/PageTransition";
+
+import {
+  getPlaylists,
+  addTrackToPlaylist,
+} from "../../services/playlist.js";
+
 import { addFavoriteTrack } from "../../services/favorites.js";
 
-// Cette fonction permettra de changer la musique en cours
 const Track = () => {
+  const [query, setQuery] = useState("");
+  const [tracks, setTracks] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
 
-// Stocke ce que l'utilisateur tape dans l'input
-    const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-// 🎵Tableau contenant les tracks récupérées depuis Deezer
-    const [tracks, setTracks] = useState([]);
+  // Active/désactive l’overlay de recherche
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-//  Permet d'afficher "Chargement..."
-    const [loading, setLoading] = useState(false);
-// Stocke les erreurs éventuelles
-    const [error, setError] = useState("");
-      const [playlists, setPlaylists] = useState([]);
+  const { setCurrentTrack, addHistory } = useMusic();
 
+  const search = async () => {
+    setLoading(true);
+    setError("");
 
-    const {
-        setCurrentTrack, addFavorite, addHistory
-    } = useMusic();
-
-// Focntion appelé quand on clique sur "Rechercher"
-    const search = async () => {
-// Active le Loading
-        setLoading(true);
-//Rénitialise les erreurs
-        setError("");
-
-        try {
-            //Appel API vers Backend
-            // Appel API via api.js et query = texte tapé par l'utilisateur 
+    try {
       const res = await searchTracks(query);
-            // res.data = données renvoyées par ton serveur
-            // res.data.data = tableau des tracks Deezer
-            setTracks(res.data.data);
 
-        } catch (err) {
-            //si erreur reseaux API
-            setError("Erreur lors de la récupération des tracks");
-            console.log("err");
-        } finally {
-            //Stoppe le loading dans tous les cas
-            setLoading(false);
-        }
-       
-    };
+      setTracks(res.data.data);
 
-    const loadPlaylists = async () => {
+      // Ferme l’overlay après la recherche
+      setIsSearchFocused(false);
+    } catch (err) {
+      setError("Erreur lors de la récupération des tracks");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadPlaylists = async () => {
     try {
       const res = await getPlaylists();
       setPlaylists(res.data);
@@ -62,47 +54,72 @@ const Track = () => {
     }
   };
 
+  const playTrack = (track) => {
+    setCurrentTrack(track);
+    addHistory(track);
+  };
 
-    //Lecture track
-    const playTrack = (track) => {
-        setCurrentTrack(track);
-        addHistory(track);
-    };
+  const handleAddToPlaylist = async (playlistId, track) => {
+    try {
+      await addTrackToPlaylist(playlistId, track);
+      alert("Track ajoutée à la playlist");
+    } catch (err) {
+      console.error(err);
+      alert("Erreur lors de l'ajout");
+    }
+  };
 
-    const handleAddToPlaylist = async (playlistId, track) => {
-        try {
-            await addTrackToPlaylist(playlistId, track);
-            alert("Track ajoutée à la playlist");
-        } catch (err) {
-            console.log(err);
-            alert("Erreur lors de l'ajout");
-        }
-    };
+  const handleFavorite = async (track) => {
+    try {
+      await addFavoriteTrack(track);
+      alert("Track ajoutée aux favoris");
+    } catch (err) {
+      console.error(err);
+      alert("Erreur lors de l'ajout aux favoris");
+    }
+  };
 
-    useEffect (() => {
-        loadPlaylists();
-    }, []);
-
-    const handleFavorite = async (track) => {
-  try {
-    await addFavoriteTrack(track);
-    alert("Track ajoutée aux favoris");
-  } catch (err) {
-    console.error(err);
-    alert("Erreur lors de l'ajout aux favoris");
-  }
-};
+  useEffect(() => {
+    loadPlaylists();
+  }, []);
 
   return (
+    <>
+     <PageTransition subtitle="Trouve ton son" title="Recherche"/>
+
+
     <div className="conteneur-tracks">
-        <h2 className="title">Tracks</h2>
+      <h2 className="title">Tracks</h2>
 
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Rechercher...' className='rechercher' />
-        <button onClick={search} className='chercher'>Rechercher</button>
-        { loading && <p>Chargement...</p> }
-        { error && <p>{error}</p> }
+      {/* Recherche animée */}
+      <div className={`search-overlay ${isSearchFocused ? "active" : ""}`}>
+        <div className="search-box">
+          <input
+            value={query}
+            onFocus={() => setIsSearchFocused(true)}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Rechercher..."
+          />
 
-        <div className="tracks-grid">
+          <button onClick={search} className="searh-name">
+            Rechercher
+          </button>
+
+          {isSearchFocused && (
+            <button
+              className="close-search"
+              onClick={() => setIsSearchFocused(false)}
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      </div>
+
+      {loading && <p>Chargement...</p>}
+      {error && <p>{error}</p>}
+
+      <div className="tracks-grid">
         {tracks.map((track) => (
           <div key={track.id}>
             <AlbumCard
@@ -112,10 +129,10 @@ const Track = () => {
             />
 
             <select
+              defaultValue=""
               onChange={(e) =>
                 handleAddToPlaylist(e.target.value, track)
               }
-              defaultValue=""
             >
               <option value="" disabled>
                 Ajouter à une playlist
@@ -131,7 +148,8 @@ const Track = () => {
         ))}
       </div>
     </div>
+    </>
   );
 };
 
-export default Track
+export default Track;

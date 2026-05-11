@@ -4,6 +4,7 @@ import {
   getPlaylists,
 } from "../../services/playlist.js";
 import { FaPlay } from "react-icons/fa";
+import PageTransition from "../../components/PageTransition/PageTransition";
 
 
 import { useMusic } from "../../context/MusicContext.jsx";
@@ -59,6 +60,12 @@ const Playlists = () => {
   }, []);
 
   return (
+<>
+    <PageTransition
+  subtitle="Tes collections"
+  title="Playlists"
+/>
+
     <div className="playlists-page">
       <h1>Mes Playlists</h1>
 
@@ -139,6 +146,7 @@ const Playlists = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

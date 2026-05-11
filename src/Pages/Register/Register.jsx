@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Alert from "../../components/Alert/Alert";
+import PageTransition from "../../components/PageTransition/PageTransition";
 
 import "../Login/Auth.css";
 
@@ -55,6 +56,12 @@ const Register = () => {
   };
 
   return (
+
+    <>
+    <PageTransition
+  subtitle="Espace pour les nouveaux utilisateurs"
+  title="Incription"
+/>
     <div className="auth-page">
       <div className="auth-card">
         <h1>Inscription</h1>
@@ -80,6 +87,7 @@ const Register = () => {
         <Alert type={alert.type} message={alert.message}/>
       </div>
     </div>
+    </>
   );
 };
 
