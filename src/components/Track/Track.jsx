@@ -97,8 +97,8 @@ const Track = () => {
     <div className="conteneur-tracks">
         <h2 className="title">Tracks</h2>
 
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Rechercher...' />
-        <button onClick={search}>Rechercher</button>
+        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Rechercher...' className='rechercher' />
+        <button onClick={search} className='chercher'>Rechercher</button>
         { loading && <p>Chargement...</p> }
         { error && <p>{error}</p> }
 

@@ -3,6 +3,11 @@ import React from 'react';
 import "./Player.css";
 import { useMusic } from "../../context/MusicContext";
 import { addFavoriteTrack } from "../../services/favorites.js";
+import { FaPlay } from "react-icons/fa";
+import { FaPause } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
+
+
 
 
 const Player = ({onFavorite}) => {
@@ -78,8 +83,8 @@ const changeVolume = (e) => {
   return (
 
     <div className="player">
-
-      <img
+        <div>
+          <img
         src={currentTrack.album.cover_small}
         alt={currentTrack.title}
       />
@@ -89,16 +94,18 @@ const changeVolume = (e) => {
         <h4>{currentTrack.title}</h4>
         <p>{currentTrack.artist.name}</p>
       </div>
+        </div>
+      
 
 
       {/* Controls */}
       <div className="player-controls">
         <button onClick={togglePlay}>
-          {isPlaying ? "⏸️" : "▶️"}
+          {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
 
         <div className="like-btn">
-          <button onClick={() => addFavoriteTrack(currentTrack)}>❤️</button>
+          <button onClick={() => addFavoriteTrack(currentTrack)}><CiHeart /></button>
         </div>
 
 

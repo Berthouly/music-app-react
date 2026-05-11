@@ -1,71 +1,87 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../../context/AuthContext";
 import { loginUser } from "../../services/auth.js";
 
-const Login = () => {
-  // Email tapé par l'utilisateur
-  const [email, setEmail] = useState("");
+import Alert from "../../components/Alert/Alert";
 
-  // Mot de passe tapé par l'utilisateur
+import "./Auth.css";
+
+const Login = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Message d'erreur
-  const [error, setError] = useState("");
+  const [alert, setAlert] = useState({
+    type: "",
+    message: "",
+  });
 
-  // Message de succès
-  const [success, setSuccess] = useState("");
-
-  // Fonction globale venant du AuthContext
-  // Elle sauvegarde le token dans localStorage
   const { login } = useAuth();
 
+  const navigate = useNavigate();
+
   const handleLogin = async () => {
-    setError("");
-    setSuccess("");
+    setAlert({
+      type: "",
+      message: "",
+    });
 
     try {
-      // Appel au backend : /api/auth/login
       const res = await loginUser({
         email,
         password,
       });
 
-      // Sauvegarde du token via AuthContext
       login(res.data.token);
 
-      setSuccess("Utilisateur connecté");
+      setAlert({
+        type: "success",
+        message: "Connexion réussie ! Redirection...",
+      });
 
-      console.log("Utilisateur connecté");
+      setTimeout(() => {
+        navigate("/playlists");
+      }, 1000);
+
     } catch (err) {
-      setError("Email ou mot de passe incorrect");
+      setAlert({
+        type: "error",
+        message: "Email ou mot de passe incorrect.",
+      });
+
       console.error(err);
     }
   };
 
   return (
-    <div className="login-page">
-      <h1>Connexion</h1>
+    <div className="auth-page">
+      <div className="auth-card">
+        <h1>Connexion</h1>
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <button onClick={handleLogin}>
-        Se connecter
-      </button>
+        <button onClick={handleLogin}>
+          Se connecter
+        </button>
 
-      {success && <p>{success}</p>}
-      {error && <p>{error}</p>}
+        <Alert
+          type={alert.type}
+          message={alert.message}
+        />
+      </div>
     </div>
   );
 };

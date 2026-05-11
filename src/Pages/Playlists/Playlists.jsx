@@ -3,6 +3,8 @@ import {
   createPlaylist,
   getPlaylists,
 } from "../../services/playlist.js";
+import { FaPlay } from "react-icons/fa";
+
 
 import { useMusic } from "../../context/MusicContext.jsx";
 
@@ -130,7 +132,7 @@ const Playlists = () => {
               </div>
 
               <button onClick={() => handlePlay(track)}>
-                ▶️
+                <FaPlay />
               </button>
             </div>
           ))}

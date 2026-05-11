@@ -1,39 +1,86 @@
-import React, { use, useState } from 'react'
-import "./Register.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
+import Alert from "../../components/Alert/Alert";
+
+import "../Login/Auth.css";
+
 const Register = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const [alert, setAlert] = useState({
+    type: "",
+    message: "",
+  });
 
-    const handleRegister = async () => {
-        try {
-            const res = await axios.post("http://localhost:3000/api/auth/register", {
-                username, 
-                email, 
-                password,
-            });
+  const navigate = useNavigate();
 
-            console.log(res.data);
-            alert("Utilisateur Créé");
-        } catch (err) {
-            console.log(err);
+  const handleRegister = async () => {
+    setAlert({
+      type: "",
+      message: "",
+    });
+
+    try {
+      await axios.post(
+        "http://localhost:3000/api/auth/register",
+        {
+          username,
+          email,
+          password,
         }
-    };
+      );
 
+      setAlert({
+        type: "success",
+        message: "Compte créé avec succès ! Redirection...",
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+
+    } catch (err) {
+      setAlert({
+        type: "error",
+        message: "Erreur lors de la création du compte.",
+      });
+
+      console.error(err);
+    }
+  };
 
   return (
-    <div className="register">
+    <div className="auth-page">
+      <div className="auth-card">
         <h1>Inscription</h1>
-
-        <input type="text" placeholder="Nom d'Utilisateur" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <input type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder='Mot de passe' value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button onClick={handleRegister}>Créer un compte</button>
+        <input
+          type="text"
+          placeholder="Nom utilisateur"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button onClick={handleRegister}>Créer mon compte</button>
+        <Alert type={alert.type} message={alert.message}/>
+      </div>
     </div>
   );
 };
 
-export default Register
+export default Register;

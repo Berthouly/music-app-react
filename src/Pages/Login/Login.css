@@ -1,0 +1,24 @@
+.login-page .connexion{
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.login-page input{
+    padding: 12px;
+    border-radius: 20px;
+    border: none;
+    background: #282828;
+    color: white;
+    margin-right: 15px;
+    width: 100%;
+}
+
+.login-page button {
+    padding: 12px 20px;
+    border-radius: 20px;
+    border: none;
+    background: #1db954;
+    color: white;
+    cursor: pointer;
+}

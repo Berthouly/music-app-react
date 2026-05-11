@@ -4,6 +4,9 @@ import {
   removeFavoriteTrack,
 } from "../../services/favorites.js";
 import { useMusic } from "../../context/MusicContext.jsx";
+import "./Favorites.css"; 
+import { FaPlay } from "react-icons/fa";
+
 
 
 const Favorites = () => {
@@ -39,7 +42,7 @@ const Favorites = () => {
   }, []);
 
   return (
-    <div>
+    <div className="favorites-page">
       <h1>Mes favoris</h1>
 
       {favorites.length === 0 && (
@@ -54,7 +57,7 @@ const Favorites = () => {
             {track.title} - {track.artist.name}
           </p>
 
-          <button onClick={() => handlePlay(track)}>▶️</button>
+          <button onClick={() => handlePlay(track)}><FaPlay /></button>
 
           <button onClick={() => handleRemove(track.id)}>
             Supprimer

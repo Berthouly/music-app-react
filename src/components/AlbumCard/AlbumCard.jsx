@@ -1,5 +1,8 @@
 import React from 'react';
 import "./AlbumCard.css";
+import { FaPlay } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
+
 
 const AlbumCard = ({track, onPlay, onFavorite,}) => {
   return (
@@ -10,8 +13,8 @@ const AlbumCard = ({track, onPlay, onFavorite,}) => {
             <p>{track.artist.name}</p>
         </div>
         <div className="album-action">
-            <button onClick={onPlay}>▶️</button>
-            <button onClick={onFavorite}>❤️</button>
+            <button onClick={onPlay}><FaPlay /></button>
+            <button onClick={onFavorite}><CiHeart /></button>
         </div>
     </div>
   );
