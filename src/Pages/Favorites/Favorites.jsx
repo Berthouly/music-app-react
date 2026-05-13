@@ -60,15 +60,17 @@ const Favorites = () => {
         <div key={track.id} className="favorite-track">
           <img src={track.album.cover_small} alt={track.title} />
 
-          <p>
-            {track.title} - {track.artist.name}
-          </p>
+          <div className="favorite-info">
+            <h3>{track.title}</h3>
+            <p>{track.artist.name}</p>
+          </div>
 
-          <button onClick={() => handlePlay(track)}><FaPlay /></button>
+          <div className="favorite-actions">
+           <button onClick={() => handlePlay(track)}>
+              <FaPlay /></button>
 
-          <button onClick={() => handleRemove(track.id)}>
-            Supprimer
-          </button>
+            <button onClick={() => handleRemove(track.id)}>✕</button>
+          </div>
         </div>
       ))}
     </div>

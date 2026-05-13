@@ -7,12 +7,9 @@ import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 
-
-
-
 const Player = ({onFavorite}) => {
 
-  const { currentTrack, addFavorite } = useMusic();
+  const { currentTrack, addFavorite, clearCurrentTrack } = useMusic();
 
   const audioRef = useRef();
 
@@ -30,7 +27,6 @@ const Player = ({onFavorite}) => {
   }, [currentTrack]);
 
   //Pause / Play
-
   const togglePlay = () => {
     if (!audioRef.current) return;
     if (isPlaying) {
@@ -42,34 +38,25 @@ const Player = ({onFavorite}) => {
   };
 
   //progression
-const handleTimeUpdate = () => {
+  const handleTimeUpdate = () => {
+    const current = audioRef.current.currentTime;
+    const duration = audioRef.current.duration;
 
-  const current = audioRef.current.currentTime;
+    if (!duration) return;
 
-  const duration = audioRef.current.duration;
+    setProgress((current / duration) * 100);
+  };
 
-  if (!duration) return;
-
-  setProgress((current / duration) * 100);
-};
-
-// Changement volume
-const changeVolume = (e) => {
-
-  // valeur du slider
-  const value = e.target.value;
-
-  // update React
-  setVolume(value);
-
-  // update volume audio HTML
-  audioRef.current.volume = value;
-};
-
+  // Changement volume
+  const changeVolume = (e) => {
+    const value = e.target.value;
+    setVolume(value);
+    audioRef.current.volume = value;
+  };
 
   if (!currentTrack) return null;
 
-      const handleFavorite = async (track) => {
+  const handleFavorite = async (track) => {
     try {
       await addFavoriteTrack(track);
       alert("Track ajoutée aux favoris");
@@ -79,24 +66,19 @@ const changeVolume = (e) => {
     }
   };
 
-
   return (
-
     <div className="player">
-        <div>
-          <img
-        src={currentTrack.album.cover_small}
-        alt={currentTrack.title}
-      />
+      <div>
+        <img
+          src={currentTrack.album.cover_small}
+          alt={currentTrack.title}
+        />
 
-
-      <div className="player-info">
-        <h4>{currentTrack.title}</h4>
-        <p>{currentTrack.artist.name}</p>
-      </div>
+        <div className="player-info">
+          <h4>{currentTrack.title}</h4>
+          <p>{currentTrack.artist.name}</p>
         </div>
-      
-
+      </div>
 
       {/* Controls */}
       <div className="player-controls">
@@ -105,9 +87,14 @@ const changeVolume = (e) => {
         </button>
 
         <div className="like-btn">
-          <button onClick={() => addFavoriteTrack(currentTrack)}><CiHeart /></button>
+          <button onClick={() => handleFavorite(currentTrack)}>
+            <CiHeart />
+          </button>
         </div>
 
+        <button className="player-close" onClick={clearCurrentTrack}>
+          ✕
+        </button>
 
         {/* Barre progression */}
         <div className="progress-bar">
@@ -117,7 +104,6 @@ const changeVolume = (e) => {
           ></div>
         </div>
       </div>
-
 
       {/* Volume */}
       <input
@@ -129,12 +115,11 @@ const changeVolume = (e) => {
         onChange={changeVolume}
       />
 
-
-      <audio ref={audioRef}
+      <audio
+        ref={audioRef}
         src={currentTrack.preview}
         onTimeUpdate={handleTimeUpdate}
       />
-
     </div>
   );
 };

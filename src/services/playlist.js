@@ -84,3 +84,30 @@ export const addTrackToPlaylist = async (
     }
   );
 };
+
+export const deletePlaylist = async (playlistId) => {
+  const token = localStorage.getItem("token");
+
+  return await axios.delete(
+    `http://localhost:3000/api/playlists/delete/${playlistId}`,
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
+};
+
+
+export const removeTrackFromPlaylist = async (playlistId, trackId) => {
+  const token = localStorage.getItem("token");
+
+  return await axios.delete(
+    `http://localhost:3000/api/playlists/remove-track/${playlistId}/${trackId}`,
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
+};

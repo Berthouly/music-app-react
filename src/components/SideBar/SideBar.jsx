@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useMusic } from "../../context/MusicContext";
 import { GoHome } from "react-icons/go";
 import { TbLibraryPlus } from "react-icons/tb";
 import { CiHeart } from "react-icons/ci";
@@ -14,7 +15,17 @@ import "./Sidebar.css";
 
 const Sidebar = () => {
 
+  const { clearCurrentTrack } = useMusic();
+
     const { isLogged, logout } = useAuth();
+
+    const naviguate = useNavigate();
+
+    const handleLogout = () => {
+        clearCurrentTrack();
+        logout();
+        naviguate("/login");
+};
 
   return (
 
@@ -35,7 +46,7 @@ const Sidebar = () => {
          <Link to="/register"><MdOutlinePersonAdd /></Link>
         </>
       ) : (
-        <button onClick={logout}><IoLogOutOutline /></button>
+        <button onClick={handleLogout}><IoLogOutOutline /></button>
       )}
 
     </div>

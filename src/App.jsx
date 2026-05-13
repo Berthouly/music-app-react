@@ -8,7 +8,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Favorites from "./Pages/Favorites/Favorites";
 import Playlists from "./Pages/Playlists/Playlists";
 
-import Home from "./pages/Home/Home";
+import Home from "./Pages/Home/Home";
 import About from "./pages/About/About";
 import Search from "./pages/Search/Search";
 import Login from "./Pages/Login/Login";

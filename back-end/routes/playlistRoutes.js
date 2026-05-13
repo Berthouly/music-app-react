@@ -58,4 +58,46 @@ router.post("/add-track", authMiddleware, async (req, res) => {
     }
 });
 
+// Supprimer une playlist
+router.delete("/delete/:playlistId", authMiddleware, async (req, res) => {
+  try {
+    await Playlist.findOneAndDelete({
+      _id: req.params.playlistId,
+      userId: req.user.id,
+    });
+
+    res.json({ message: "Playlist supprimée" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+//Supprimer une track dans une playlist
+router.delete("/remove-track/:playlistId/:trackId", authMiddleware, async (req, res) => {
+  try {
+    const playlist = await Playlist.findOne({
+      _id: req.params.playlistId,
+      userId: req.user.id,
+    });
+
+    if (!playlist) {
+      return res.status(404).json({
+        error: "Playlist introuvable",
+      });
+    }
+
+    playlist.tracks = playlist.tracks.filter(
+      (track) => String(track.id) !== String(req.params.trackId)
+    );
+
+    await playlist.save();
+
+    res.json(playlist);
+  } catch (err) {
+    res.status(500).json({
+      error: err.message,
+    });
+  }
+});
+
 export default router;

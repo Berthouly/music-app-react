@@ -15,6 +15,10 @@ export const MusicProvider = ({ children }) => {
         setFavorites((prev) => [...prev, track]);
     };
 
+    const clearCurrentTrack = () => {
+  setCurrentTrack(null);
+};
+
     //Ajouter historique
     const addHistory = (track) => {
         setHistory((prev) => [track, ...prev]);
@@ -22,7 +26,7 @@ export const MusicProvider = ({ children }) => {
 
     return (
         
-        <MusicContext.Provider value={{currentTrack, setCurrentTrack, favorites, addFavorite, history, addHistory}} >
+        <MusicContext.Provider value={{currentTrack, setCurrentTrack, clearCurrentTrack, favorites, addFavorite, history, addHistory}} >
             {children}
         </MusicContext.Provider>
     );

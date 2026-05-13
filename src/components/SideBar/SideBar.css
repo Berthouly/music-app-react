@@ -6,7 +6,7 @@
   width: min(94%, 520px);
   height: 58px;
   border-radius: 999px;
-  background: rgba(115, 16, 16, 0.82);
+  background: var(--dark-soft);
   border: 1px solid rgba(254, 192, 170, 0.28);
   backdrop-filter: blur(20px);
   display: flex;

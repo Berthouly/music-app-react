@@ -1,61 +1,86 @@
-.favorites-page {
-  padding: 10px 0 50px;
-}
-
-.favorites-page h1 {
-  font-size: clamp(36px, 12vw, 86px);
-  line-height: 0.9;
-  letter-spacing: -2px;
-}
-
 .favorite-track {
   display: grid;
-  grid-template-columns: 64px 1fr;
+  grid-template-columns: 34px 52px 1fr auto;
   gap: 12px;
   align-items: center;
-  background: var(--dark);
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  padding: 12px;
-  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(254, 192, 170, 0.09);
+  padding: 14px 0;
+}
+
+.favorite-track::before {
+  content: "♡";
+  color: var(--muted);
+  font-size: 13px;
 }
 
 .favorite-track img {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 4px;
   object-fit: cover;
 }
 
-.favorite-track h3,
-.favorite-track p {
+.favorite-info {
+  min-width: 0;
+}
+
+.favorite-info h3 {
   margin: 0;
+  font-size: 15px;
+  color: var(--secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.favorite-track p {
+.favorite-info p {
+  margin: 4px 0 0;
   color: var(--muted);
+  font-size: 13px;
 }
 
-.favorite-track button {
-  grid-column: 1 / -1;
-  padding: 12px;
+.favorite-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.favorite-actions button {
+  width: 42px;
+  height: 42px;
   border-radius: 999px;
-  background: var(--secondary);
-  color: var(--dark);
+  display: grid;
+  place-items: center;
   font-weight: 900;
 }
 
-@media (min-width: 560px) {
+.favorite-actions button:first-child {
+  background: var(--secondary);
+  color: var(--dark);
+}
+
+.favorite-actions button:last-child {
+  background: rgba(0, 21, 36, 0.78);
+  color: var(--secondary);
+  border: 1px solid rgba(254, 192, 170, 0.18);
+}
+
+.favorite-actions button:last-child:hover {
+  background: var(--secondary);
+  color: var(--dark);
+}
+
+@media (max-width: 520px) {
   .favorite-track {
-    grid-template-columns: 76px 1fr auto auto;
+    grid-template-columns: 28px 48px 1fr;
   }
 
-  .favorite-track img {
-    width: 76px;
-    height: 76px;
+  .favorite-actions {
+    grid-column: 1 / -1;
+    width: 100%;
   }
 
-  .favorite-track button {
-    grid-column: auto;
+  .favorite-actions button {
+    flex: 1;
+    width: auto;
   }
 }

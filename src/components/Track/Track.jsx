@@ -3,15 +3,13 @@ import "./Track.css";
 
 import { searchTracks } from "../../services/api.js";
 import { useMusic } from "../../context/MusicContext.jsx";
-import AlbumCard from "../AlbumCard/AlbumCard.jsx";
-import PageTransition from "../../components/PageTransition/PageTransition";
-
 import {
   getPlaylists,
   addTrackToPlaylist,
 } from "../../services/playlist.js";
-
 import { addFavoriteTrack } from "../../services/favorites.js";
+
+import PageTransition from "../../components/PageTransition/PageTransition";
 
 const Track = () => {
   const [query, setQuery] = useState("");
@@ -21,7 +19,6 @@ const Track = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Active/désactive l’overlay de recherche
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const { setCurrentTrack, addHistory } = useMusic();
@@ -32,10 +29,7 @@ const Track = () => {
 
     try {
       const res = await searchTracks(query);
-
       setTracks(res.data.data);
-
-      // Ferme l’overlay après la recherche
       setIsSearchFocused(false);
     } catch (err) {
       setError("Erreur lors de la récupération des tracks");
@@ -85,69 +79,124 @@ const Track = () => {
 
   return (
     <>
-     <PageTransition subtitle="Trouve ton son" title="Recherche"/>
+      <PageTransition
+        subtitle="Découverte musicale"
+        title="Recherche"
+      />
 
+      <div className="track-page">
+        <section className="track-hero">
+          <div className="track-hero-content">
+            <p className="track-kicker">
+              // Découverte musicale
+            </p>
 
-    <div className="conteneur-tracks">
-      <h2 className="title">Tracks</h2>
+            <h1>
+              Trouvez vos <em>artistes</em> préférés
+            </h1>
 
-      {/* Recherche animée */}
-      <div className={`search-overlay ${isSearchFocused ? "active" : ""}`}>
-        <div className="search-box">
-          <input
-            value={query}
-            onFocus={() => setIsSearchFocused(true)}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Rechercher..."
-          />
+            {/* Search bar gardée avec overlay */}
+            <div className={`search-overlay ${isSearchFocused ? "active" : ""}`}>
+              <div className="search-box">
+                <button
+                  className="close-search"
+                  onClick={() => setIsSearchFocused(false)}
+                >
+                  ✕
+                </button>
 
-          <button onClick={search} className="searh-name">
-            Rechercher
-          </button>
+                <p>Recherche musicale</p>
 
-          {isSearchFocused && (
-            <button
-              className="close-search"
-              onClick={() => setIsSearchFocused(false)}
-            >
-              ✕
-            </button>
-          )}
-        </div>
-      </div>
+                <h2>Trouver un titre</h2>
 
-      {loading && <p>Chargement...</p>}
-      {error && <p>{error}</p>}
+                <input
+                  value={query}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Artiste, titre..."
+                />
 
-      <div className="tracks-grid">
-        {tracks.map((track) => (
-          <div key={track.id}>
-            <AlbumCard
-              track={track}
-              onPlay={() => playTrack(track)}
-              onFavorite={() => handleFavorite(track)}
-            />
+                <button onClick={search}>
+                  Écouter
+                </button>
+              </div>
+            </div>
 
-            <select
-              defaultValue=""
-              onChange={(e) =>
-                handleAddToPlaylist(e.target.value, track)
-              }
-            >
-              <option value="" disabled>
-                Ajouter à une playlist
-              </option>
-
-              {playlists.map((playlist) => (
-                <option key={playlist._id} value={playlist._id}>
-                  {playlist.name}
-                </option>
-              ))}
-            </select>
+            {loading && <p className="track-message">Chargement...</p>}
+            {error && <p className="track-message error">{error}</p>}
           </div>
-        ))}
+
+          <div className="vinyl-wrapper">
+            <div className="turntable-arm"></div>
+
+            <div className="vinyl-disc">
+              <div className="vinyl-label">
+                <span>Music</span>
+                <strong>App</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="track-results">
+          <p className="results-label">
+            Résultats — {tracks.length} titres
+          </p>
+
+          <div className="track-list">
+            {tracks.map((track, index) => (
+              <div key={track.id} className="track-row">
+                <span className="track-number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <img
+                  src={track.album.cover_small || track.album.cover_medium}
+                  alt={track.title}
+                />
+
+                <div className="track-row-info">
+                  <h3>{track.title}</h3>
+                  <p>{track.artist.name}</p>
+                </div>
+
+                <span className="track-duration">
+                  {track.duration
+                    ? `${Math.floor(track.duration / 60)}:${String(track.duration % 60).padStart(2, "0")}`
+                    : "--:--"}
+                </span>
+
+                <div className="track-row-actions">
+                  <button onClick={() => playTrack(track)}>
+                    ▶
+                  </button>
+
+                  <button onClick={() => handleFavorite(track)}>
+                    ♡
+                  </button>
+
+                  <select
+                    defaultValue=""
+                    onChange={(e) =>
+                      handleAddToPlaylist(e.target.value, track)
+                    }
+                  >
+                    <option value="" disabled>
+                      +
+                    </option>
+
+                    {playlists.map((playlist) => (
+                      <option key={playlist._id} value={playlist._id}>
+                        {playlist.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
-    </div>
     </>
   );
 };

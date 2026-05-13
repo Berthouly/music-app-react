@@ -1,47 +1,94 @@
 .auth-page {
-  min-height: calc(100vh - 170px);
+  min-height: calc(100vh - 160px);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px 0;
 }
 
 .auth-card {
-  width: 100%;
-  max-width: 430px;
-  background: var(--dark);
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  padding: 22px;
+  width: min(100%, 430px);
+  min-height: 640px;
+  border-radius: 38px;
+  padding: 42px 24px 28px;
+  background:
+    radial-gradient(circle at top, rgba(254, 192, 170, 0.95), transparent 48%),
+    #e8d3c7;
+  color: #080606;
+  display: flex;
+  flex-direction: column;
 }
 
 .auth-card h1 {
-  font-size: clamp(34px, 10vw, 58px);
+  font-size: clamp(42px, 12vw, 58px);
   line-height: 0.9;
-  margin: 0 0 24px;
+  letter-spacing: -3px;
+  margin: 80px 0 10px;
+}
+
+.auth-subtitle {
+  color: rgba(8, 6, 6, 0.72);
+  font-size: 15px;
+  line-height: 1.4;
+  margin: 0 0 28px;
 }
 
 .auth-card input {
   width: 100%;
-  margin-bottom: 12px;
-  padding: 15px 18px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text);
+  height: 58px;
+  padding: 0 20px;
+  border: none;
   outline: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #080606;
+  margin-bottom: 12px;
+}
+
+.auth-card input::placeholder {
+  color: rgba(8, 6, 6, 0.35);
 }
 
 .auth-card button {
   width: 100%;
-  padding: 15px;
+  height: 58px;
+  margin-top: 6px;
   border-radius: 999px;
-  background: var(--secondary);
-  color: var(--dark);
+  background: #080606;
+  color: white;
   font-weight: 900;
 }
 
-@media (min-width: 520px) {
+.auth-legal {
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(8, 6, 6, 0.48);
+  margin-top: 18px;
+}
+
+.auth-legal strong {
+  display: block;
+  color: rgba(8, 6, 6, 0.75);
+}
+
+.auth-bottom {
+  margin-top: auto;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(8, 6, 6, 0.75);
+}
+
+.auth-bottom a {
+  color: #080606;
+  font-weight: 900;
+  text-decoration: none;
+  margin-left: 6px;
+}
+
+@media (min-width: 768px) {
   .auth-card {
-    padding: 32px;
+    min-height: 680px;
+    padding: 48px 34px 32px;
   }
 }

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 import { loginUser } from "../../services/auth.js";
-
 import Alert from "../../components/Alert/Alert";
 import PageTransition from "../../components/PageTransition/PageTransition";
+
 
 import "./Auth.css";
 
@@ -19,32 +19,24 @@ const Login = () => {
   });
 
   const { login } = useAuth();
-
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    setAlert({
-      type: "",
-      message: "",
-    });
+    setAlert({ type: "", message: "" });
 
     try {
-      const res = await loginUser({
-        email,
-        password,
-      });
+      const res = await loginUser({ email, password });
 
       login(res.data.token);
 
       setAlert({
         type: "success",
-        message: "Connexion réussie ! Redirection...",
+        message: "Connexion réussie !",
       });
 
       setTimeout(() => {
         navigate("/playlists");
-      }, 1000);
-
+      }, 900);
     } catch (err) {
       setAlert({
         type: "error",
@@ -57,14 +49,19 @@ const Login = () => {
 
   return (
 
-    <>
+      <>
     <PageTransition
-  subtitle="Espace utilisateur"
+  subtitle="Espace utilisateurs"
   title="Connexion"
 />
     <div className="auth-page">
       <div className="auth-card">
         <h1>Connexion</h1>
+
+        <p className="auth-subtitle">
+          Connecte-toi pour retrouver tes favoris, playlists et titres
+          sauvegardés.
+        </p>
 
         <input
           type="email"
@@ -84,10 +81,17 @@ const Login = () => {
           Se connecter
         </button>
 
-        <Alert
-          type={alert.type}
-          message={alert.message}
-        />
+        <Alert type={alert.type} message={alert.message} />
+
+        <p className="auth-legal">
+          En te connectant, tu acceptes nos conditions.
+          <strong>Politique de confidentialité</strong>
+        </p>
+
+        <p className="auth-bottom">
+          Pas encore de compte ?
+          <Link to="/register">S’inscrire</Link>
+        </p>
       </div>
     </div>
     </>
